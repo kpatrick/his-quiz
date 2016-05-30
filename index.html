@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    
+    <script src="js/jquery-2.2.4.min.js"></script>    
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+      .header td {font-weight: bold;}
+      td {width: 200px; padding: 20px; text-align: center;}
+    </style>
+  </head>
+
+  <body>
+    <div style="width:50%; margin:auto">
+    <h1>His Quiz</h1>
+    <table border=1>
+      <tr class="header">
+        <td>Category 1</td>
+        <td>Category 2</td>
+        <td>Category 3</td>
+        <td>Category 4</td>
+        <td>Category 5</td>
+      </tr>
+      <tr>
+        <td data-q="Category 1 for 100 question" data-a="Category 1 for 100 answer">100</td>
+        <td data-q="Category 2 for 100 question" data-a="Category 2 for 100 answer">100</td>
+        <td data-q="Category 3 for 100 question" data-a="Category 3 for 100 answer">100</td>
+        <td data-q="Category 4 for 100 question" data-a="Category 4 for 100 answer">100</td>
+        <td data-q="Category 5 for 100 question" data-a="Category 5 for 100 answer">100</td>
+      </tr>
+      <tr>
+        <td data-q="Category 1 for 200 question" data-a="Category 1 for 200 answer">200</td>
+        <td data-q="Category 2 for 200 question" data-a="Category 2 for 200 answer">200</td>
+        <td data-q="Category 3 for 200 question" data-a="Category 3 for 200 answer">200</td>
+        <td data-q="Category 4 for 200 question" data-a="Category 4 for 200 answer">200</td>
+        <td data-q="Category 5 for 200 question" data-a="Category 5 for 200 answer">200</td>
+      </tr>
+      <tr>
+        <td data-q="Category 1 for 300 question" data-a="Category 1 for 300 answer">300</td>
+        <td data-q="Category 2 for 300 question" data-a="Category 2 for 300 answer">300</td>
+        <td data-q="Category 3 for 300 question" data-a="Category 3 for 300 answer">300</td>
+        <td data-q="Category 4 for 300 question" data-a="Category 4 for 300 answer">300</td>
+        <td data-q="Category 5 for 300 question" data-a="Category 5 for 300 answer">300</td>
+      </tr>
+      <tr>
+        <td data-q="Category 1 for 400 question" data-a="Category 1 for 400 answer">400</td>
+        <td data-q="Category 2 for 400 question" data-a="Category 2 for 400 answer">400</td>
+        <td data-q="Category 3 for 400 question" data-a="Category 3 for 400 answer">400</td>
+        <td data-q="Category 4 for 400 question" data-a="Category 4 for 400 answer">400</td>
+        <td data-q="Category 5 for 400 question" data-a="Category 5 for 400 answer">400</td>
+      </tr>
+      <tr>
+        <td data-q="Category 1 for 500 question" data-a="Category 1 for 500 answer">500</td>
+        <td data-q="Category 2 for 500 question" data-a="Category 2 for 500 answer">500</td>
+        <td data-q="Category 3 for 500 question" data-a="Category 3 for 500 answer">500</td>
+        <td data-q="Category 4 for 500 question" data-a="Category 4 for 500 answer">500</td>
+        <td data-q="Category 5 for 500 question" data-a="Category 5 for 500 answer">500</td>
+      </tr>
+    </table>
+
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">        
+          <div class="modal-body">
+            <p id="question"></p>
+            <p id="answer" style="display:none"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="show_answer">Show Answer</button>            
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>            
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </div>
+
+    
+    <script>
+    var currentCell = null;
+    $("td").on("click", function(event){        
+      var target = $(event.currentTarget);
+      if (!target.attr("data-q")) {return;}
+      currentCell = target;
+      // which column
+      var colIndex = target.parent().find("td").index(event.currentTarget);
+      var columnText = $(".header td:nth-child(" + (colIndex+1) + ")").text();
+      
+      $("#question").html(columnText + " for " + target.text() + "<br><br>" + target.attr("data-q")); 
+      $("#answer").html(target.attr("data-a") || "default answer");
+      $("#answer").hide();
+      $("#show_answer").show();
+      
+      $("#modal").modal();      
+      
+    });
+    
+    $("button[data-dismiss]").on("click", function(event){
+      currentCell.attr("data-q", ""); 
+      currentCell.html("&nbsp;");
+    });
+    $("#show_answer").on("click", function(event){      
+      $("#show_answer").hide();
+      $("#answer").slideDown();      
+    });
+    </script>
+  </body>
+</html>
